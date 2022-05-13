@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.flutter_auth">
+    package="com.example.helping_hand">
    <application
-        android:label="flutter_auth"
+        android:label="helping_hand"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
