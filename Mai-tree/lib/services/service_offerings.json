@@ -1,0 +1,22 @@
+[
+  {
+    "serviceId": 1,
+    "name": "Health Care",
+    "brief": "Assistance with health care for elderly"
+  },
+  {
+    "serviceId": 2,
+    "name": "Emergency",
+    "brief": "Assistance in event of emergency"
+  },
+  {
+    "serviceId": 3,
+    "name": "Home Care",
+    "brief": "Assistance with household chores"
+  },
+  {
+    "serviceId": 4,
+    "name": "Convenience",
+    "brief": "Assistance with getting grocery, minor repairs at home etc."
+  }
+]
