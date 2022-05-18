@@ -178,7 +178,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   }
 
   Widget _buildButton(
-      {Widget? icon, String? label, required Interval interval}) {
+      {Widget? icon, String? label, required Interval interval, Function? onPressedAction}) {
     return RoundButton(
       icon: icon,
       label: label,
@@ -188,7 +188,9 @@ class _DashboardScreenState extends State<DashboardScreen>
         interval.end,
         curve: const ElasticOutCurve(0.42),
       ),
-      onPressed: () {},
+      onPressed: () {
+        onPressedAction!();
+      },
     );
   }
 
@@ -209,6 +211,11 @@ class _DashboardScreenState extends State<DashboardScreen>
           icon: const Icon(FontAwesomeIcons.user),
           label: 'Profile',
           interval: const Interval(0, aniInterval),
+          onPressedAction: () => {
+            //Navigator.push(context, LoginScreen());
+            Navigator.of(context)
+                .pushReplacementNamed('/Profile')
+          },
         ),
         _buildButton(
           icon: Container(

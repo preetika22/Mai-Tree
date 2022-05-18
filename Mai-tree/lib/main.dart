@@ -49,6 +49,7 @@ class MyApp extends StatelessWidget {
       routes: {
         LoginScreen.routeName: (context) => const LoginScreen(),
         DashboardScreen.routeName: (context) => const DashboardScreen(),
+        '/Profile': (context) => const LoginScreen(),
       },
     );
   }
