@@ -5,7 +5,7 @@ class ServiceOffering {
   final String name;
   final String brief;
 
-  const ServiceOffering({ required this.serviceId, required this.name, required this.brief});
+  ServiceOffering({ required this.serviceId, required this.name, required this.brief});
 
   factory ServiceOffering.fromJson(Map<String, dynamic> json){
     return ServiceOffering(
@@ -14,4 +14,10 @@ class ServiceOffering {
       brief: json['brief'],
     );
   }
+
+  Map<String, dynamic> toJson() => {
+    "serviceId": serviceId,
+    "name": name,
+    "brief": brief,
+  };
 }

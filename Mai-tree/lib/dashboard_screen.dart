@@ -85,7 +85,7 @@ class _DashboardScreenState extends State<DashboardScreen>
             child: Hero(
               tag: Constants.logoTag,
               child: Image.asset(
-                'assets/images/ecorp.png',
+                'assets/images/mai-tree-logo.png',
                 filterQuality: FilterQuality.high,
                 height: 30,
               ),
@@ -132,7 +132,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     final primaryColor =
         Colors.primaries.where((c) => c == theme.primaryColor).first;
     final accentColor =
-        Colors.primaries.where((c) => c == theme.colorScheme.secondary).first;
+        Colors.primaries.where((c) => c.value == theme.colorScheme.secondary.value).first;
     final linearGradient = LinearGradient(colors: [
       primaryColor.shade800,
       primaryColor.shade200,
@@ -329,7 +329,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                     ),
                   ],
                 ),
-                if (!kReleaseMode) _buildDebugButtons(),
+                //if (!kReleaseMode) _buildDebugButtons(),
               ],
             ),
           ),
