@@ -6,6 +6,7 @@ import 'firebase_options.dart';
 import 'dashboard_screen.dart';
 import 'login_screen.dart';
 import 'transition_route_observer.dart';
+import 'service_booking_screen.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
       routes: {
         LoginScreen.routeName: (context) => const LoginScreen(),
         DashboardScreen.routeName: (context) => const DashboardScreen(),
-        '/Profile': (context) => const LoginScreen(),
+        ServiceBookingScreen.routeName: (context) => const ServiceBookingScreen(),
       },
     );
   }

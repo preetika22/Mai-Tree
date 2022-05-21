@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_login/theme.dart';
 import 'package:flutter_login/widgets.dart';
+import 'package:helping_hand/services/service_offering_provider.dart';
 import 'transition_route_observer.dart';
 import 'widgets/fade_in.dart';
 import 'constants.dart';
 import 'widgets/animated_numeric_text.dart';
 import 'widgets/round_button.dart';
+import 'services/service_offering_provider.dart';
+import 'view_models/service_offering.dart';
+import 'service_booking_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   static const routeName = '/dashboard';
@@ -31,6 +35,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   static const headerAniInterval = Interval(.1, .3, curve: Curves.easeOut);
   late Animation<double> _headerScaleAnimation;
   AnimationController? _loadingController;
+  late List<ServiceOffering> offerings;
 
   @override
   void initState() {
@@ -197,6 +202,17 @@ class _DashboardScreenState extends State<DashboardScreen>
   Widget _buildDashboardGrid() {
     const step = 0.04;
     const aniInterval = 0.75;
+    var dashboardButtons = <Widget>[];
+
+    for(var offering in offerings) {
+      dashboardButtons.add(_buildButton(
+        icon: const Icon(FontAwesomeIcons.user),
+        label: offering.name,
+        interval: const Interval(0, aniInterval),
+        onPressedAction: () =>
+            Navigator.of(context).pushNamed(ServiceBookingScreen.routeName, arguments: offering.serviceId),
+      ));
+    }
 
     return GridView.count(
       padding: const EdgeInsets.symmetric(
@@ -206,66 +222,67 @@ class _DashboardScreenState extends State<DashboardScreen>
       childAspectRatio: .9,
       // crossAxisSpacing: 5,
       crossAxisCount: 3,
-      children: [
-        _buildButton(
-          icon: const Icon(FontAwesomeIcons.user),
-          label: 'Profile',
-          interval: const Interval(0, aniInterval),
-          onPressedAction: () => {
-            //Navigator.push(context, LoginScreen());
-            Navigator.of(context)
-                .pushReplacementNamed('/Profile')
-          },
-        ),
-        _buildButton(
-          icon: Container(
-            // fix icon is not centered like others for some reasons
-            padding: const EdgeInsets.only(left: 16.0),
-            alignment: Alignment.centerLeft,
-            child: const Icon(
-              FontAwesomeIcons.moneyBillAlt,
-              size: 20,
-            ),
-          ),
-          label: 'Fund Transfer',
-          interval: const Interval(step, aniInterval + step),
-        ),
-        _buildButton(
-          icon: const Icon(FontAwesomeIcons.handHoldingUsd),
-          label: 'Payment',
-          interval: const Interval(step * 2, aniInterval + step * 2),
-        ),
-        _buildButton(
-          icon: const Icon(FontAwesomeIcons.chartLine),
-          label: 'Report',
-          interval: const Interval(0, aniInterval),
-        ),
-        _buildButton(
-          icon: const Icon(Icons.vpn_key),
-          label: 'Register',
-          interval: const Interval(step, aniInterval + step),
-        ),
-        _buildButton(
-          icon: const Icon(FontAwesomeIcons.history),
-          label: 'History',
-          interval: const Interval(step * 2, aniInterval + step * 2),
-        ),
-        _buildButton(
-          icon: const Icon(FontAwesomeIcons.ellipsisH),
-          label: 'Other',
-          interval: const Interval(0, aniInterval),
-        ),
-        _buildButton(
-          icon: const Icon(FontAwesomeIcons.search, size: 20),
-          label: 'Search',
-          interval: const Interval(step, aniInterval + step),
-        ),
-        _buildButton(
-          icon: const Icon(FontAwesomeIcons.slidersH, size: 20),
-          label: 'Settings',
-          interval: const Interval(step * 2, aniInterval + step * 2),
-        ),
-      ],
+      children: dashboardButtons,
+      // children: [
+      //   _buildButton(
+      //     icon: const Icon(FontAwesomeIcons.user),
+      //     label: 'Profile',
+      //     interval: const Interval(0, aniInterval),
+      //     onPressedAction: () => {
+      //       //Navigator.push(context, LoginScreen());
+      //       Navigator.of(context)
+      //           .pushReplacementNamed('/Profile')
+      //     },
+      //   ),
+      //   _buildButton(
+      //     icon: Container(
+      //       // fix icon is not centered like others for some reasons
+      //       padding: const EdgeInsets.only(left: 16.0),
+      //       alignment: Alignment.centerLeft,
+      //       child: const Icon(
+      //         FontAwesomeIcons.moneyBillAlt,
+      //         size: 20,
+      //       ),
+      //     ),
+      //     label: 'Fund Transfer',
+      //     interval: const Interval(step, aniInterval + step),
+      //   ),
+      //   _buildButton(
+      //     icon: const Icon(FontAwesomeIcons.handHoldingUsd),
+      //     label: 'Payment',
+      //     interval: const Interval(step * 2, aniInterval + step * 2),
+      //   ),
+      //   _buildButton(
+      //     icon: const Icon(FontAwesomeIcons.chartLine),
+      //     label: 'Report',
+      //     interval: const Interval(0, aniInterval),
+      //   ),
+      //   _buildButton(
+      //     icon: const Icon(Icons.vpn_key),
+      //     label: 'Register',
+      //     interval: const Interval(step, aniInterval + step),
+      //   ),
+      //   _buildButton(
+      //     icon: const Icon(FontAwesomeIcons.history),
+      //     label: 'History',
+      //     interval: const Interval(step * 2, aniInterval + step * 2),
+      //   ),
+      //   _buildButton(
+      //     icon: const Icon(FontAwesomeIcons.ellipsisH),
+      //     label: 'Other',
+      //     interval: const Interval(0, aniInterval),
+      //   ),
+      //   _buildButton(
+      //     icon: const Icon(FontAwesomeIcons.search, size: 20),
+      //     label: 'Search',
+      //     interval: const Interval(step, aniInterval + step),
+      //   ),
+      //   _buildButton(
+      //     icon: const Icon(FontAwesomeIcons.slidersH, size: 20),
+      //     label: 'Settings',
+      //     interval: const Interval(step * 2, aniInterval + step * 2),
+      //   ),
+      // ],
     );
   }
 
@@ -293,55 +310,71 @@ class _DashboardScreenState extends State<DashboardScreen>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    var offeringService = ServiceOfferingProvider();
 
-    return WillPopScope(
-      onWillPop: () => _goToLogin(context),
-      child: SafeArea(
-        child: Scaffold(
-          appBar: _buildAppBar(theme),
-          body: Container(
-            width: double.infinity,
-            height: double.infinity,
-            color: theme.primaryColor.withOpacity(.1),
-            child: Stack(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    const SizedBox(height: 40),
-                    Expanded(
-                      flex: 2,
-                      child: _buildHeader(theme),
+    return FutureBuilder<List<ServiceOffering>>(
+      future: offeringService.fetchServiceOfferings(),
+      builder: (BuildContext context, AsyncSnapshot<List<ServiceOffering>> snapshot) {
+        if(snapshot.connectionState == ConnectionState.waiting){
+          return const Center(child: Text('Please wait its loading...'));
+        } else {
+          if(snapshot.hasError){
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            offerings = snapshot.data!;
+            return WillPopScope(
+              onWillPop: () => _goToLogin(context),
+              child: SafeArea(
+                child: Scaffold(
+                  appBar: _buildAppBar(theme),
+                  body: Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    color: theme.primaryColor.withOpacity(.1),
+                    child: Stack(
+                      children: <Widget>[
+                        Column(
+                          children: <Widget>[
+                            const SizedBox(height: 40),
+                            Expanded(
+                              flex: 2,
+                              child: _buildHeader(theme),
+                            ),
+                            Expanded(
+                              flex: 8,
+                              child: ShaderMask(
+                                // blendMode: BlendMode.srcOver,
+                                shaderCallback: (Rect bounds) {
+                                  return LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    tileMode: TileMode.clamp,
+                                    colors: <Color>[
+                                      Colors.deepPurpleAccent.shade100,
+                                      Colors.deepPurple.shade100,
+                                      Colors.deepPurple.shade100,
+                                      Colors.deepPurple.shade100,
+                                      // Colors.red,
+                                      // Colors.yellow,
+                                    ],
+                                  ).createShader(bounds);
+                                },
+                                child: _buildDashboardGrid(),
+                              ),
+                            ),
+                          ],
+                        ),
+                        //if (!kReleaseMode) _buildDebugButtons(),
+                      ],
                     ),
-                    Expanded(
-                      flex: 8,
-                      child: ShaderMask(
-                        // blendMode: BlendMode.srcOver,
-                        shaderCallback: (Rect bounds) {
-                          return LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            tileMode: TileMode.clamp,
-                            colors: <Color>[
-                              Colors.deepPurpleAccent.shade100,
-                              Colors.deepPurple.shade100,
-                              Colors.deepPurple.shade100,
-                              Colors.deepPurple.shade100,
-                              // Colors.red,
-                              // Colors.yellow,
-                            ],
-                          ).createShader(bounds);
-                        },
-                        child: _buildDashboardGrid(),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-                //if (!kReleaseMode) _buildDebugButtons(),
-              ],
-            ),
-          ),
-        ),
-      ),
+              ),
+            );
+          }
+        }
+      },
     );
+
   }
 }
